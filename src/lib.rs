@@ -145,6 +145,7 @@ pub use crate::{
     error::{
         Error, ErrorKind, FromUtf8Error, IntoInnerError, Result, Utf8Error,
     },
+    merger::{HeaderMerger, MergeError},
     reader::{
         ByteRecordsIntoIter, ByteRecordsIter, DeserializeRecordsIntoIter,
         DeserializeRecordsIter, Reader, ReaderBuilder, StringRecordsIntoIter,
@@ -159,6 +160,7 @@ pub mod cookbook;
 mod debug;
 mod deserializer;
 mod error;
+mod merger;
 mod reader;
 mod serializer;
 mod string_record;
