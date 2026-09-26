@@ -1,0 +1,5 @@
+active,quantity,ratio,sku,note
+true,10,1,001,in stock
+false,0,2,002,
+true,5,1.20,003,
+maybe,7,3,004,backorder
