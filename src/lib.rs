@@ -154,6 +154,7 @@ pub use crate::{
     writer::{Writer, WriterBuilder},
 };
 
+pub mod aggregate;
 mod byte_record;
 pub mod cookbook;
 mod debug;
