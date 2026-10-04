@@ -105,3 +105,27 @@ $ git clone git://github.com/BurntSushi/rust-csv
 $ cd rust-csv
 $ cargo run --example cookbook-read-serde < examples/data/smallpop.csv
 ```
+
+### Exact per-key money totals
+
+The `csv::amount` module sums a money column by a business key using a fixed
+decimal precision and plain integer arithmetic, so values never pass through
+floating point. Two chunk summaries can be merged atomically (the merge
+requires the same precision and key strategy, and any conflict leaves the
+target state unchanged), and output follows each key's first valid
+appearance.
+
+A small demo with two CSV chunks lives in
+[`examples/amount-aggregation.rs`](examples/amount-aggregation.rs):
+
+```text
+$ cargo run --example amount-aggregation
+```
+
+It reads `examples/data/amount_chunk1.csv` (`a,0.10` / `a,0.20`) and
+`examples/data/amount_chunk2.csv` (`a,0.30` / `b,1.00`) separately, merges
+them (`a` totals exactly `0.60` with count `3`), and shows that `a,0.001` is
+rejected at 2-digit precision without changing any total. The in-memory
+state consists of the config, the next 1-based record number, and one entry
+per key `{ key, count: u64, sum: i64 minor units }` in first-seen order; see
+the module documentation for details.

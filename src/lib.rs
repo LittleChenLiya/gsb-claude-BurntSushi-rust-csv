@@ -154,6 +154,12 @@ pub use crate::{
     writer::{Writer, WriterBuilder},
 };
 
+/// Business-keyed summation of a fixed-precision money column, with exact
+/// integer arithmetic and atomic merging of chunk summaries.
+///
+/// See the [module documentation](amount/index.html) for the amount grammar,
+/// the in-memory state format and a worked example.
+pub mod amount;
 mod byte_record;
 pub mod cookbook;
 mod debug;
