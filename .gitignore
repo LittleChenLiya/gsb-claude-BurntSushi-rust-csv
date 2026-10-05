@@ -7,3 +7,7 @@ target
 Cargo.lock
 scratch*
 bench_large/huge
+
+# Local build caches (D-drive worktree)
+.cargo-cache/
+.tmp/
