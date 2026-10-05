@@ -161,6 +161,7 @@ mod deserializer;
 mod error;
 mod reader;
 mod serializer;
+pub mod shard;
 mod string_record;
 pub mod tutorial;
 mod writer;
