@@ -159,6 +159,7 @@ pub mod cookbook;
 mod debug;
 mod deserializer;
 mod error;
+pub mod migrate;
 mod reader;
 mod serializer;
 mod string_record;
