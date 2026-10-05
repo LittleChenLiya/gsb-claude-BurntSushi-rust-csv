@@ -152,6 +152,10 @@ pub use crate::{
     },
     string_record::{StringRecord, StringRecordIter},
     writer::{Writer, WriterBuilder},
+    sharded_writer::{
+        ShardInfo, ShardLocation, ShardManifest, ShardedWriter,
+        ShardedWriterBuilder,
+    },
 };
 
 mod byte_record;
@@ -164,6 +168,7 @@ mod serializer;
 mod string_record;
 pub mod tutorial;
 mod writer;
+pub mod sharded_writer;
 
 /// The quoting style to use when writing CSV data.
 #[derive(Clone, Copy, Debug, Default)]
