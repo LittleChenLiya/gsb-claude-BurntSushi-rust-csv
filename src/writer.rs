@@ -20,7 +20,7 @@ use crate::{
 /// This builder can be used to tweak the field delimiter, record terminator
 /// and more. Once a CSV `Writer` is built, its configuration cannot be
 /// changed.
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct WriterBuilder {
     builder: CoreWriterBuilder,
     capacity: usize,

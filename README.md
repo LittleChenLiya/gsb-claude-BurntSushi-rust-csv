@@ -62,6 +62,28 @@ $ cd rust-csv
 $ cargo run --example cookbook-read-basic < examples/data/smallpop.csv
 ```
 
+### External sorting
+
+The `external_sort` module provides `ExternalSorter`, a reusable,
+memory-bounded, stable sorter for CSV files. The caller picks the sort
+columns and a byte-wise field comparator; records are handled as
+`ByteRecord`, so non-UTF-8 data is preserved. When the configured memory
+budget is exceeded, sorted runs are spilled to disk and merged in as many
+rounds as `max_open_runs` requires. The output is written to a temporary
+file next to the target and only renamed over it once the sort fully
+succeeded; on any error the temporary files are removed and a pre-existing
+target is preserved.
+
+The memory budget accounts for the field data and the field-boundary index
+of each buffered record (`size_of::<ByteRecord>() + record.as_slice().len()
++ (record.len() + 1) * size_of::<usize>()`); a single record whose estimate
+exceeds the budget is rejected. See the `external_sort` module
+documentation for details, and run the demo with:
+
+```text
+$ cargo run --example external-sort
+```
+
 ### Example with Serde
 
 This example shows how to read CSV data from stdin into your own custom struct.

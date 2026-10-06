@@ -9,7 +9,7 @@ use crate::{QuoteStyle, Terminator};
 ///
 /// This builder permits specifying the CSV delimiter, terminator, quoting
 /// style and more.
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct WriterBuilder {
     wtr: Writer,
 }

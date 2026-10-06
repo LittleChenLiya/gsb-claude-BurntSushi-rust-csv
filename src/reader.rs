@@ -23,7 +23,7 @@ use crate::{
 /// This builder can be used to tweak the field delimiter, record terminator
 /// and more. Once a CSV `Reader` is built, its configuration cannot be
 /// changed.
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct ReaderBuilder {
     capacity: usize,
     flexible: bool,

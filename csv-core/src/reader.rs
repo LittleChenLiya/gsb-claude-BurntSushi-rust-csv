@@ -154,7 +154,7 @@ impl Default for Reader {
 /// This builder can be used to tweak the field delimiter, record terminator
 /// and more for parsing CSV. Once a CSV `Reader` is built, its configuration
 /// cannot be changed.
-#[derive(Debug, Default)]
+#[derive(Clone, Debug, Default)]
 pub struct ReaderBuilder {
     rdr: Reader,
 }
