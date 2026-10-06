@@ -23,6 +23,17 @@ To bring this crate into your repository, either add `csv` to your
 `Cargo.toml`, or run `cargo add csv`.
 
 
+### Merge join
+
+The `csv::merge_join` module joins two `ByteRecord` streams that are each
+sorted by a key column. It supports inner and left joins, emits the full
+cross product of duplicate keys in stable left-then-right order, accepts
+non-UTF-8 data, spills oversized key groups to caller-managed temporary
+files, reports out-of-order inputs with their side and position, and
+supports a maximum output row count with observable cleanup. See the
+[`MergeJoinBuilder`](https://docs.rs/csv/*/csv/struct.MergeJoinBuilder.html)
+docs and the `merge-join-demo` example.
+
 ### Example
 
 This example shows how to read CSV data from stdin and print each record to

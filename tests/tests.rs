@@ -63,6 +63,20 @@ fn cookbook_write_serde() {
 }
 
 #[test]
+fn merge_join_demo() {
+    let mut cmd = cmd_for_example("merge-join-demo");
+    let out = cmd_output(&mut cmd);
+    let stdout = out.stdout();
+    // Four inner rows and five left rows, plus the ordering diagnostic.
+    assert_eq!(stdout.matches(" | ").count(), 9);
+    assert!(stdout.contains("b,l3 | <empty>"));
+    assert!(stdout.contains("out-of-order record #2"));
+    assert!(stdout.contains("side: Left"));
+    assert!(stdout.contains("output is NOT complete"));
+    assert!(out.status.success());
+}
+
+#[test]
 fn tutorial_setup_01() {
     let mut cmd = cmd_for_example("tutorial-setup-01");
     let out = cmd_output_with(&mut cmd, USPOP.as_bytes());

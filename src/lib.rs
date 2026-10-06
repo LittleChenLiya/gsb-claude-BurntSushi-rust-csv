@@ -37,6 +37,11 @@ Finally, the set of errors is described by the
 [`Error`](struct.Error.html)
 type.
 
+For joining two record streams that are each sorted by a key column (with
+inner or left joins, disk spilling for large duplicate-key groups and
+ordering diagnostics), see the
+[`merge_join`](merge_join/index.html) module.
+
 The rest of the types in this crate mostly correspond to more detailed errors,
 position information, configuration knobs or iterator types.
 
@@ -145,6 +150,10 @@ pub use crate::{
     error::{
         Error, ErrorKind, FromUtf8Error, IntoInnerError, Result, Utf8Error,
     },
+    merge_join::{
+        CleanupReport, JoinError, JoinKind, JoinSide, JoinStatus, MergeJoin,
+        MergeJoinBuilder, StopReason,
+    },
     reader::{
         ByteRecordsIntoIter, ByteRecordsIter, DeserializeRecordsIntoIter,
         DeserializeRecordsIter, Reader, ReaderBuilder, StringRecordsIntoIter,
@@ -159,6 +168,7 @@ pub mod cookbook;
 mod debug;
 mod deserializer;
 mod error;
+mod merge_join;
 mod reader;
 mod serializer;
 mod string_record;
