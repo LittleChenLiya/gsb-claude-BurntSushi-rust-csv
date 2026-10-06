@@ -159,6 +159,7 @@ pub mod cookbook;
 mod debug;
 mod deserializer;
 mod error;
+pub mod extsort;
 mod reader;
 mod serializer;
 mod string_record;
