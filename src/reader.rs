@@ -1753,6 +1753,57 @@ impl<R: io::Read> Reader<R> {
         self.state.has_headers
     }
 
+    /// Returns the field delimiter configured on this reader.
+    pub fn delimiter(&self) -> u8 {
+        self.core.delimiter()
+    }
+
+    /// Returns the record terminator configured on this reader.
+    pub fn terminator(&self) -> Terminator {
+        match self.core.terminator() {
+            csv_core::Terminator::CRLF => Terminator::CRLF,
+            csv_core::Terminator::Any(b) => Terminator::Any(b),
+            _ => Terminator::CRLF,
+        }
+    }
+
+    /// Returns the quote character configured on this reader.
+    pub fn quote(&self) -> u8 {
+        self.core.quote()
+    }
+
+    /// Returns the escape character configured on this reader, if any.
+    pub fn escape(&self) -> Option<u8> {
+        self.core.escape()
+    }
+
+    /// Returns true if and only if doubled quotes are interpreted as
+    /// escapes by this reader.
+    pub fn double_quote(&self) -> bool {
+        self.core.double_quote()
+    }
+
+    /// Returns true if and only if this reader respects quotes.
+    pub fn quoting(&self) -> bool {
+        self.core.quoting()
+    }
+
+    /// Returns the comment character configured on this reader, if any.
+    pub fn comment(&self) -> Option<u8> {
+        self.core.comment()
+    }
+
+    /// Returns the whitespace trimming behavior configured on this reader.
+    pub fn trim(&self) -> Trim {
+        self.state.trim
+    }
+
+    /// Returns true if and only if records may contain a varying number of
+    /// fields.
+    pub fn is_flexible(&self) -> bool {
+        self.state.flexible
+    }
+
     /// Returns a reference to the underlying reader.
     pub fn get_ref(&self) -> &R {
         self.rdr.get_ref()

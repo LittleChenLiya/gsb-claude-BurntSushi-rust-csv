@@ -503,6 +503,48 @@ impl Reader {
         self.line = line;
     }
 
+    /// The field delimiter configured on this parser.
+    #[inline]
+    pub fn delimiter(&self) -> u8 {
+        self.delimiter
+    }
+
+    /// The record terminator configured on this parser.
+    #[inline]
+    pub fn terminator(&self) -> Terminator {
+        self.term
+    }
+
+    /// The quote character configured on this parser.
+    #[inline]
+    pub fn quote(&self) -> u8 {
+        self.quote
+    }
+
+    /// The escape character configured on this parser, if any.
+    #[inline]
+    pub fn escape(&self) -> Option<u8> {
+        self.escape
+    }
+
+    /// Whether doubled quotes are interpreted as escapes.
+    #[inline]
+    pub fn double_quote(&self) -> bool {
+        self.double_quote
+    }
+
+    /// Whether quotes are respected by this parser.
+    #[inline]
+    pub fn quoting(&self) -> bool {
+        self.quoting
+    }
+
+    /// The comment character configured on this parser, if any.
+    #[inline]
+    pub fn comment(&self) -> Option<u8> {
+        self.comment
+    }
+
     /// Parse a single CSV field in `input` and copy field data to `output`.
     ///
     /// This routine requires a caller provided buffer of CSV data as the

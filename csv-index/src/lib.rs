@@ -62,6 +62,18 @@ fn example() -> Result<(), Box<dyn Error>> {
 }
 ```
 
+# Example: build a sparse, tamper aware random access index
+
+The [`SparseIndex`](sparse/struct.SparseIndex.html) type stores a complete
+seekable position (byte offset, line and record number) for only every Nth
+record. Random access to an arbitrary record resumes from the nearest
+checkpoint and parses forward at most `N - 1` records, which correctly
+crosses quoted fields containing line breaks. Besides the checkpoint table,
+it records the source file's size, a digest of its complete contents and a
+fingerprint of the parsing dialect. Old indexes are therefore rejected when
+the source file or the delimiter, quote and other settings change. See the
+[`sparse`](sparse/index.html) module for details and an example.
+
 # Future work
 
 The full scope of this crate hasn't been determined yet. For example, it's not
@@ -73,5 +85,7 @@ amenable to serializing to disk.)
 #![deny(missing_docs)]
 
 pub use crate::simple::RandomAccessSimple;
+pub use crate::sparse::SparseIndex;
 
 mod simple;
+pub mod sparse;
