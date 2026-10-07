@@ -73,5 +73,9 @@ amenable to serializing to disk.)
 #![deny(missing_docs)]
 
 pub use crate::simple::RandomAccessSimple;
+pub use crate::sparse::{
+    Dialect, SourceMeta, SparseIndex, SparseRandomAccess,
+};
 
 mod simple;
+mod sparse;
