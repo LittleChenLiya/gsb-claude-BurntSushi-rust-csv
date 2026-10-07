@@ -40,6 +40,13 @@ type.
 The rest of the types in this crate mostly correspond to more detailed errors,
 position information, configuration knobs or iterator types.
 
+The [`merge_join`](merge_join/index.html) module provides a library level
+merge join over two `ByteRecord` streams that are already sorted on a key
+column: inner and left joins, Cartesian products for duplicate keys, stable
+output ordering, disk spilling for key groups that exceed a memory budget,
+out-of-order diagnostics, an optional output row limit and temporary file
+cleanup observability. Fields never have to be valid UTF-8.
+
 # Setup
 
 Run `cargo add csv` to add the latest version of the `csv` crate to your
@@ -145,6 +152,10 @@ pub use crate::{
     error::{
         Error, ErrorKind, FromUtf8Error, IntoInnerError, Result, Utf8Error,
     },
+    merge_join::{
+        CleanupReport, JoinKind, JoinReport, JoinRow, JoinSide, JoinStatus,
+        MergeJoinBuilder, MergeJoinError, MergeJoinErrorKind, TempFiles,
+    },
     reader::{
         ByteRecordsIntoIter, ByteRecordsIter, DeserializeRecordsIntoIter,
         DeserializeRecordsIter, Reader, ReaderBuilder, StringRecordsIntoIter,
@@ -159,6 +170,7 @@ pub mod cookbook;
 mod debug;
 mod deserializer;
 mod error;
+pub mod merge_join;
 mod reader;
 mod serializer;
 mod string_record;

@@ -105,3 +105,35 @@ $ git clone git://github.com/BurntSushi/rust-csv
 $ cd rust-csv
 $ cargo run --example cookbook-read-serde < examples/data/smallpop.csv
 ```
+
+### Merge joins
+
+The `csv::merge_join` module performs library level merge joins over two
+`ByteRecord` streams that are already sorted by a key column in non-decreasing
+byte order. Inner and left joins are supported, duplicate keys expand to a
+Cartesian product, and large same-key groups spill to temporary files in a
+caller provided directory while preserving the stable "left order, then right
+order" output. A maximum number of output rows can be configured, unsorted
+input is reported with the offending side and record position, and fields are
+not required to be valid UTF-8.
+
+```ignore
+use csv::{
+    merge_join::{JoinKind, MergeJoinBuilder, TempFiles},
+    ReaderBuilder,
+};
+
+let left = b"a,l0\na,l1\nb,l2\n";
+let right = b"a,r0\na,r1\nc,r2\n";
+let mut lrdr = ReaderBuilder::new().has_headers(false).from_reader(&left[..]);
+let mut rrdr = ReaderBuilder::new().has_headers(false).from_reader(&right[..]);
+
+let mut temps = TempFiles::new(std::env::temp_dir().join("my-join-spills"))?;
+let mut wtr = csv::WriterBuilder::new()
+    .flexible(true)
+    .from_writer(vec![]);
+let status = MergeJoinBuilder::new()
+    .join_kind(JoinKind::Left)
+    .run_to_writer(lrdr.byte_records(), rrdr.byte_records(), &mut temps, &mut wtr)?;
+
+assert_eq!(status.emitted(), 5); // four Cartesian product rows plus the unmatched "b"

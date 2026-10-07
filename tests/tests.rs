@@ -510,3 +510,24 @@ fn read_to_string<R: io::Read>(mut rdr: R) -> String {
     rdr.read_to_string(&mut s).unwrap();
     s
 }
+
+#[test]
+fn merge_join_demo() {
+    let mut cmd = cmd_for_example("merge-join-demo");
+    let out = cmd_output(&mut cmd);
+    // The four Cartesian product rows of the inner join.
+    assert!(out.stdout().contains("a,l0,a,r0"));
+    assert!(out.stdout().contains("a,l1,a,r1"));
+    // The extra unmatched left "b" row with its empty right marker.
+    assert!(out.stdout().contains("b,l2,"));
+    // Forced spilling and observable reclamation.
+    assert!(out.stdout().contains("spill files created: 2, removed: 2"));
+    assert!(out.stdout().contains("files left in the managed directory: []"));
+    // The out-of-order diagnostic names the side and record position.
+    assert!(out.stdout().contains(
+        "the left input is not sorted in non-decreasing byte order"
+    ));
+    assert!(out.stdout().contains("side: Some(Left), record index: 2"));
+    // The explicit early-stop status.
+    assert!(out.stdout().contains("status is_limit: true, rows handed"));
+}
